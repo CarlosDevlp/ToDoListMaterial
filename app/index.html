@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>GDG TodoList</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:ng-hide="preloader.hidden"css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" type="text/css" href="../bower_components/angular-material/angular-material.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-app="todoListApp" ng-controller="MainCtrl">    
+    <!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+  <!-- preloader -->
+  <div class="preloader" ng-hide="preloader.hidden">
+  </div>
+  <!-- toolbar -->
+  <div class="main" ng-class="{show:preloader.hidden}">
+    <header>
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <md-button class="md-icon-button" aria-label="Settings"
+            ng-click="optionsSideNav.toggle()">
+            <md-icon md-svg-icon="images/menu.svg"></md-icon>
+          </md-button>
+
+          <h2>
+            <span>To do List</span>
+          </h2>        
+        </div>
+      </md-toolbar>
+    </header>
+
+    <!--tabhost y contenido-->
+    <section>
+      <md-content>
+
+        <md-tabs md-dynamic-height md-border-bottom >
+          
+            <md-tab label="Por hacer">
+
+              <md-content class="md-padding"
+               ng-if="toDoList.tasks.length>0">
+
+                  <md-card ng-repeat="task in toDoList.tasks track by $index">
+                    <md-card-content>
+                      <h2 class="md-title">{{task.name}}</h2>
+                      <p>
+                        {{task.desp}}
+                      </p>
+                    </md-card-content>
+                    <div class="md-actions" layout="row" layout-align="end center">
+                      <md-button class="md-icon-button md-primary" aria-label="Settings" ng-click="taskEditor($index)">
+                          <md-icon md-svg-icon="images/edit.svg"></md-icon>
+                      </md-button>
+                      <md-checkbox aria-label="CheckboxHecho" ng-model="task.done">
+                          Hecho
+                      </md-checkbox>
+                    </div>
+
+                  </md-card>
+
+              </md-content>
+              <md-content class="md-padding"
+                ng-if="toDoList.tasks.length==0">             
+                No hay tareas para realizar
+              </md-content>
+
+
+            </md-tab>           
+            <md-tab label="Hechas">
+                <md-content class="md-padding">
+                
+                    <md-card ng-repeat="task in toDoList.doneTasks">
+
+                      <md-card-content>
+                        <h2 class="md-title">{{task.name}}</h2>
+                        <p>
+                          {{task.desp}}
+                        </p>
+                      </md-card-content>
+
+                    </md-card>
+
+
+
+                </md-content>
+            </md-tab>
+          
+        </md-tabs>
+       
+      </md-content>
+    </section>
+
+     <!-- FAB button -->
+     <md-button class="add-task md-fab md-fab-bottom-right right" aria-label="Add task"
+      ng-click="taskMaker()"
+     >
+          +        
+    </md-button>
+
+    <!-- side nav -->
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2"     
+                 md-component-id="options" md-swipe-left="optionsSideNav.close()">
+        <md-toolbar class="md-theme-light">
+          <h1 class="md-toolbar-tools">Opciones</h1>
+        </md-toolbar>
+        <md-content  layout-padding>
+          <h2 class="md-title">Para todas las tareas:</h2>
+          <md-button class="md-primary md-raised btn-accept" ng-click="optionsSideNav.selectAll()">
+               Seleccionar todas
+          </md-button>
+          <md-button class="md-primary md-raised btn-accept" ng-click="optionsSideNav.deselectAll()">
+               Deseleccionar todas
+          </md-button>        
+
+          <h2 class="md-title">Para las tareas seleccionadas:</h2>
+          <md-button class="md-primary md-raised btn-accept"
+            ng-click="optionsSideNav.deleteSelectedTasks()">
+               Eliminar tareas hechas
+          </md-button>
+        </md-content>
+    </md-sidenav>  
+  </div>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <script>
+       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script>
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular-animate/angular-animate.js"></script>
+    <script src="../bower_components/angular-aria/angular-aria.js"></script>
+    <script src="../bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="../bower_components/angular-resource/angular-resource.js"></script>
+    <script src="../bower_components/angular-route/angular-route.js"></script>
+    <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="../bower_components/angular-touch/angular-touch.js"></script>
+    <script src="../bower_components/angular-material/angular-material.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/about.js"></script>        
+        <script src="scripts/controllers/taskmaker.js"></script>
+        <script src="scripts/controllers/taskeditor.js"></script>
+        <!-- endbuild -->
+</body>
+</html>
