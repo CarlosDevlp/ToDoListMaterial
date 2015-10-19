@@ -23,9 +23,9 @@
   <div class="preloader" ng-hide="preloader.hidden">
   </div>
   <!-- toolbar -->
-  <div class="main" ng-class="{show:preloader.hidden}">
-    <header>
-      <md-toolbar>
+  <div class="main" ng-class="{show:preloader.hidden}" layout="column" 
+       flex layout-fill ng-cloak>    
+      <md-toolbar md-scroll-shrink>
         <div class="md-toolbar-tools">
           <md-button class="md-icon-button" aria-label="Settings"
             ng-click="optionsSideNav.toggle()">
@@ -37,19 +37,18 @@
           </h2>        
         </div>
       </md-toolbar>
-    </header>
+    
 
-    <!--tabhost y contenido-->
-    <section>
-      <md-content>
+    <!--tabhost y contenido-->    
+      <md-content flex layout-padding>
 
-        <md-tabs md-dynamic-height md-border-bottom >
+        <md-tabs md-dynamic-height md-border-bottom>
           
             <md-tab label="Por hacer">
 
               <md-content class="md-padding"
                ng-if="toDoList.tasks.length>0">
-
+                  <md-subheader class="md-primary">Hay {{ toDoList.tasks.length }} tareas para realizar</md-subheader>
                   <md-card ng-repeat="task in toDoList.tasks track by $index">
                     <md-card-content>
                       <h2 class="md-title">{{task.name}}</h2>
@@ -75,32 +74,34 @@
               </md-content>
 
 
-            </md-tab>           
-            <md-tab label="Hechas">
-                <md-content class="md-padding">
-                
-                    <md-card ng-repeat="task in toDoList.doneTasks">
+            </md-tab>
 
+            <md-tab label="Hechas">
+            
+                <md-content class="md-padding" ng-if="toDoList.doneTasks.length>0">
+                  <md-subheader class="md-primary">Hay {{ toDoList.doneTasks.length }} tareas hechas</md-subheader>
+                    <md-card ng-repeat="task in toDoList.doneTasks">
                       <md-card-content>
                         <h2 class="md-title">{{task.name}}</h2>
                         <p>
                           {{task.desp}}
                         </p>
                       </md-card-content>
-
                     </md-card>
-
-
-
                 </md-content>
+                <md-content class="md-padding"
+                ng-if="toDoList.doneTasks.length==0">             
+                  No hay tareas para realizar
+                </md-content>
+
             </md-tab>
           
         </md-tabs>
        
-      </md-content>
-    </section>
-
-     <!-- FAB button -->
+      </md-content>    
+  </div>
+  <div class="resources" ng-class="{show:preloader.hidden}">
+      <!-- FAB button -->
      <md-button class="add-task md-fab md-fab-bottom-right right" aria-label="Add task"
       ng-click="taskMaker()"
      >
@@ -128,7 +129,7 @@
                Eliminar tareas hechas
           </md-button>
         </md-content>
-    </md-sidenav>  
+    </md-sidenav>
   </div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->

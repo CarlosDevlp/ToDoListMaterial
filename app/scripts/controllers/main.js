@@ -9,8 +9,8 @@
  */
  var p;
 angular.module('todoListApp')
-  .controller('MainCtrl', function ($scope,$mdSidenav,$timeout,$mdDialog,$http,$cookies) {
-    p=$cookies;
+  .controller('MainCtrl', function ($scope,$mdSidenav,$timeout,$mdDialog,$http,$cookies,$mdToast) {
+    p=$mdDialog;
   /*declaration*/      
      /*componente preloader*/
      $scope.preloader={
@@ -30,7 +30,8 @@ angular.module('todoListApp')
             var timer = $timeout(function() {
 
               timer = undefined;
-              $mdSidenav('options').toggle().self.apply(context, args);
+              $mdSidenav('options').open();
+              // .apply(context, args);
 
             },wait); 
 
@@ -44,16 +45,22 @@ angular.module('todoListApp')
                $scope.toDoList.tasks[i].done=false;
        },
        deleteSelectedTasks:function(){
-            for(var i in $scope.toDoList.tasks)
+            
+            for(var i=0;i<$scope.toDoList.tasks.length;i++)
               if($scope.toDoList.tasks[i].done){
                 $scope.toDoList.doneTasks.push($scope.toDoList.tasks[i]);
                 $scope.toDoList.tasks.splice(i,1);
+                i--;
               }
+              
+                
             $scope.memory.saveList();
-            $mdDialog.alert({
-                        title:"Aviso",
-                        content:"Se han eliminado todas las tareas seleccionadas exitosamente",
-                      });
+
+            $mdToast.show(
+              $mdToast.simple()
+                .content("Se han eliminado todas las tareas seleccionadas")                
+                .hideDelay(3000)
+            );
 
        }
      };
@@ -64,8 +71,14 @@ angular.module('todoListApp')
             templateUrl:"views/taskForm.html",
             controller: "TaskmakerCtrl"
           }).then(function(resp){//promises//succes
-              $scope.toDoList.tasks.push(resp); 
+              $scope.toDoList.tasks.unshift(resp); 
               $scope.memory.saveList();
+
+              $mdToast.show(
+                $mdToast.simple()
+                .content("Se creó una nueva tarea")                
+                .hideDelay(3000)
+              );
           },function(){});
      };
 
@@ -78,6 +91,13 @@ angular.module('todoListApp')
           }).then(function(resp){//promises//succes
               $scope.toDoList.tasks[index]=resp; 
               $scope.memory.saveList();
+
+              $mdToast.show(
+              $mdToast.simple()
+                .content("Se editó la información de la tarea")                
+                .hideDelay(2000)
+              );
+
           },function(){});
      };
 

@@ -9,6 +9,7 @@ body {
   padding: 0;  
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -94,11 +95,40 @@ md-dialog md-dialog-content md-content h2, md-sidenav md-content h2{
   color:rgb(33,150,243);
   text-align: center;
 }
+
 /*to the sidenav options*/
 md-sidenav md-content button{
   width: 90%;
 }
 
+md-tabs md-content md-card:last-child{  
+  margin-bottom: 30%;
+}
+
+/*Scrolling*/
+div.main, div.main md-content, div.main md-content md-tabs, div.main md-content md-tabs md-tabs-content-wrapper,
+div.main md-content md-tabs md-tabs-content-wrapper md-tab-content, div.main md-content md-tabs md-tabs-content-wrapper md-tab-content > div{
+  height:100%;
+}
+div.main md-content md-tabs md-tabs-content-wrapper md-tab-content div md-content{
+  height:75%;
+  /*border: 2px solid red;  */
+}
+div.main md-content md-tabs md-content div.md-subheader-wrapper{
+  width:90%;  
+}
+div.main md-content md-tabs md-content{
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+div.main md-content md-tabs md-tabs-wrapper md-pagination-wrapper md-tab-item{
+    width: 50%
+}
+div.main md-content md-tabs md-tabs-wrapper md-pagination-wrapper{
+    width:100%;
+}
+
+/*prealoading page conf*/
 div.preloader{
   display: initial;
   position: absolute;
@@ -110,9 +140,33 @@ div.preloader{
   background-position: center;
   background-image: url('../images/loader.gif') !important;
 }
-div.main{
+
+div.main,div.resources{  
   display: none;
 }
-div.main.show{
+body > div.show{
   display: initial;
+}
+
+/*phone version features*/
+@media screen and (max-width: 400px){
+  div.resources md-sidenav{
+    min-width: 80%;
+    max-width: 400px;
+  }
+}
+
+@media screen and (min-width: 400px){
+  md-dialog{
+      width: 30%;
+  }
+  md-dialog md-dialog-content,md-dialog > div {
+    width: 85%;
+  }
+  md-dialog button:first-child{
+      float:left;  
+  }
+  md-dialog button:last-child{
+      float:right;  
+  }
 }
